@@ -1,12 +1,17 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from 'express';
+import studentRoutes from '@routes/studentRoutes';
+// ... import other necessary modules
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server 2");
-});
+app.use(express.json()); // for parsing application/json
+
+// Setup routes
+app.use('/students', studentRoutes);
+
 
 app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
+
