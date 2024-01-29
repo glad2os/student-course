@@ -1,4 +1,4 @@
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 
 const studentSchema = new mongoose.Schema({
   studentNumber: { type: String, required: true },
@@ -14,7 +14,7 @@ const studentSchema = new mongoose.Schema({
   strongestSkill: String // custom field
 });
 
-const Student = mongoose.model('Student', studentSchema);
+//const Student = mongoose.model('Student', studentSchema);
 
 export interface IStudent extends Document {
   studentNumber: string;
@@ -29,6 +29,8 @@ export interface IStudent extends Document {
   favoriteTopic?: string;
   strongestSkill?: string;
 }
+
+const Student: Model<IStudent> = mongoose.model<IStudent>('Student', studentSchema);
 
 export default Student;
 

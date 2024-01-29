@@ -26,22 +26,23 @@
 
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
-    // "rootDir": "./",                                  /* Specify the root folder within your source files. */
+     "rootDir": "./src",                                  /* Specify the root folder within your source files. */
     // "moduleResolution": "node10",                     /* Specify how TypeScript looks up a file from a given module specifier. */
     "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
       "@controllers/*": ["src/presentation/controllers/*"],
       "@routes/*": ["src/presentation/routes/*"],
-      "@services/*": ["src/application/services/*"],
+      "@services/*": ["src/domain/services/*"],
       "@middleware/*": ["src/application/middleware/*"],
       "@use_cases/*": ["src/application/use_cases/*"],
       "@entities/*": ["src/domain/entities/*"],
       "@models/*": ["src/infrastructure/db/mongoose/*"],
-      "@repositories/*": ["src/infrastructure/repositories/*"]
+      "@repositories/*": ["src/infrastructure/repositories/*"],
+      "@config/*": ["src/infrastructure/db/*"]
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
-    // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
+    // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */tsc
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
     // "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */
     // "allowImportingTsExtensions": true,               /* Allow imports to include TypeScript file extensions. Requires '--moduleResolution bundler' and either '--noEmit' or '--emitDeclarationOnly' to be set. */
@@ -114,5 +115,9 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  }
+  },
+  "include": [
+    "src/**/*",
+    "**/*.d.ts" // This line includes all .d.ts files in the project
+  ],
 }

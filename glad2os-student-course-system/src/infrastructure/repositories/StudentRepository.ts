@@ -1,6 +1,5 @@
 import { Model } from 'mongoose';
-import Student, { IStudent } from '@models/StudentModel';
-import Course, { ICourse } from '@models/CourseModel'; // Import the Course model
+import { IStudent } from '@models/StudentModel';
 
 class StudentRepository {
   private readonly studentModel: Model<IStudent>;
@@ -9,40 +8,18 @@ class StudentRepository {
     this.studentModel = studentModel;
   }
 
-  async create(studentData: IStudent): Promise<IStudent> {
-    try {
-      const newStudent = new this.studentModel(studentData);
-      const savedStudent = await newStudent.save();
-      return savedStudent;
-    } catch (error) {
-      throw new Error(`Error creating student: ${error}`);
-    }
+  async addStudent(studentData: IStudent): Promise<IStudent> {
+    const student = new this.studentModel(studentData);
+    return student.save();
   }
 
-  async findAll(): Promise<IStudent[]> {
-    try {
-      const students = await this.studentModel.find();
-      return students;
-    } catch (error) {
-      throw new Error(`Error finding all students: ${error}`);
-    }
+  async listAllStudents(): Promise<IStudent[]> {
+    return this.studentModel.find().exec();
   }
 
-  async findCoursesForStudent(studentId: string): Promise<ICourse[]> {
-    try {
-      const student = await this.studentModel.findById(studentId);
-      if (!student) {
-        return [];
-      }
-
-      // Use the student's ObjectId to find courses they are enrolled in
-      const courses = await Course.find({ students: student._id }).exec();
-      return courses;
-    } catch (error) {
-      throw new Error(`Error finding courses for student: ${error}`);
-    }
+  async listCoursesByStudent(studentId: string): Promise<IStudent | null> {
+    return this.studentModel.findById(studentId).populate('courses').exec();
   }
 }
 
 export default StudentRepository;
-

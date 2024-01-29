@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
 const courseSchema = new Schema({
   courseCode: { type: String, required: true },
@@ -11,7 +11,7 @@ const courseSchema = new Schema({
   }]
 });
 
-const Course = mongoose.model('Course', courseSchema);
+//const Course = mongoose.model('Course', courseSchema);
 
 export interface ICourse extends Document {
   courseCode: string;
@@ -21,5 +21,6 @@ export interface ICourse extends Document {
   students: Schema.Types.ObjectId[];
 }
 
-export default Course;
+const Course: Model<ICourse> = mongoose.model<ICourse>('Course', courseSchema);
 
+export default Course;
