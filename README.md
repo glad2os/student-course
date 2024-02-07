@@ -1,4 +1,3 @@
-# student-course
 # Student/Course Management System
 
 ## Purpose
