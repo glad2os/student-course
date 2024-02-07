@@ -1,18 +1,24 @@
 apiVersion: skaffold/v2beta11
 kind: Config
-  #build:
-  #  artifacts:
-  #  - image: mongo
-  #    context: .
-  #    docker:
-  #      dockerfile: Dockerfile
+build:
+  artifacts:
+  - image: glad2os/course-system
+    context: ./glad2os-student-course-system
+    docker: 
+       dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
-    - k8s-manifests/mongodb/*.yaml
+    - k8s-manifests/node-backend/*.yaml
+    - k8s-manifests/mongodb/*.yaml 
 portForward:
   - resourceType: service
     resourceName: mongodb-service
     namespace: default
     port: 27017
     localPort: 27017
+  - resourceType: service
+    resourceName: backend-service
+    namespace: default
+    port: 3000
+    localPort: 3000
