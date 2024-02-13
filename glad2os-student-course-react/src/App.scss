@@ -14,11 +14,11 @@ body, html {
   padding: 0;
   background: linear-gradient(
                   to right,
-                  rgba(13, 28, 63, 1) 0%,    /* Deep blue */
-                  rgba(34, 56, 74, 0.8) 10%,  /* Transition shade */
-                  rgba(58, 79, 95, 0.6) 50%,  /* Mid-transition shade */
-                  rgba(34, 56, 74, 0.8) 90%,  /* Transition shade */
-                  rgba(13, 28, 63, 1) 100%    /* Deep blue */
+                  rgba(13, 28, 63, 1) 0%,
+                  rgba(34, 56, 74, 0.8) 10%,
+                  rgba(58, 79, 95, 0.6) 50%,
+                  rgba(34, 56, 74, 0.8) 90%,
+                  rgba(13, 28, 63, 1) 100%
   );
 }
 
@@ -26,6 +26,8 @@ body, html {
   display: flex;
   flex: 1;
   margin: 0 15%;
-  background-color: #22384A; /* Mid-transition shade from the gradient */
-  height: calc(100vh - 4.2rem); /* Adjust this value if you have other elements like headers or footers */
+  background-color: #22384A;
+  height: calc(100vh - 4.2rem);
+
+  padding: 30px;
 }

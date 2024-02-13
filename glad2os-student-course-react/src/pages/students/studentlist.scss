@@ -1,0 +1,71 @@
+
+.container.student-list {
+  flex-direction: column;
+  color: lightgray;
+
+  ul {
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    justify-content: flex-start;
+    gap: 15px;
+  }
+
+  .student {
+    color: lightgray;
+    flex: 1 1 200px;
+
+    margin-top: 15px;
+    list-style: none;
+    margin-bottom: 1rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: fit-content;
+  }
+
+
+  .student-info {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .student-info p {
+    margin: 0.5rem 0;
+  }
+
+  .student-info span {
+    font-weight: bold;
+  }
+
+  .student.add-new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px dashed #ccc;
+  }
+
+  .student.add-new .student-info {
+    width: 100%;
+    text-align: center;
+  }
+
+  .student.add-new .student-add-link {
+    display: block;
+    padding: 2rem;
+    font-size: 3rem;
+    color: #333;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .student.add-new .student-add-link:hover {
+    color: #fff;
+  }
+
+  .add-student-text {
+    margin: 0;
+  }
+}
