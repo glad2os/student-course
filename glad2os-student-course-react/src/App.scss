@@ -4,4 +4,28 @@
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  box-sizing: border-box; /* Ensures padding does not add to the total width or height */
+}
+
+body, html {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+                  to right,
+                  rgba(13, 28, 63, 1) 0%,    /* Deep blue */
+                  rgba(34, 56, 74, 0.8) 10%,  /* Transition shade */
+                  rgba(58, 79, 95, 0.6) 50%,  /* Mid-transition shade */
+                  rgba(34, 56, 74, 0.8) 90%,  /* Transition shade */
+                  rgba(13, 28, 63, 1) 100%    /* Deep blue */
+  );
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  margin: 0 15%;
+  background-color: #22384A; /* Mid-transition shade from the gradient */
+  height: calc(100vh - 4.2rem); /* Adjust this value if you have other elements like headers or footers */
 }

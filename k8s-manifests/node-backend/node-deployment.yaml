@@ -21,6 +21,8 @@ spec:
             value: "27017"
           - name: MONGO_DATABASE
             value: "your_database_name"
+          - name: PORT
+            value: "3000"
         resources:
           requests:
             memory: "32Mi"

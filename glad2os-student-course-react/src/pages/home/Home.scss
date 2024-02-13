@@ -1,0 +1,17 @@
+.container.home {
+
+  display: flex;
+
+  flex-direction: column;
+  padding: 30px;
+  h1 {
+    color: whitesmoke;
+
+    & + p {
+      margin-top: 15px;
+      text-align: justify;
+      color: #ffffff;
+      line-height: 1.5rem;
+    }
+  }
+}
