@@ -1,0 +1,56 @@
+.create-student-form {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    color: lightgray;
+    margin-bottom: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; // Adjust this as needed
+    max-width: 500px; // Prevents the form from becoming too wide on large screens
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      font-size: 1rem;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ced4da; // A light grey border
+      border-radius: 0.25rem;
+      background-color: lightgray;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+      &:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+    }
+
+    .submit-button {
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      color: #fff;
+      background-color: #0066ff; // Bootstrap primary button color
+      border: none;
+      border-radius: 0.25rem;
+      transition: background-color 0.15s ease-in-out;
+
+      &:hover {
+        background-color: #0056b3; // A darker shade for hover state
+      }
+    }
+  }
+}
