@@ -35,7 +35,6 @@ function CreateStudent() {
     return (
         <div>
             <div className="create-student-form">
-
                 <h1>Create Student</h1>
                 <form onSubmit={handleSubmit}>
                     <input type="text" name="studentNumber" value={formData.studentNumber} onChange={handleChange}

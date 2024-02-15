@@ -11,6 +11,19 @@
 
     justify-content: flex-start;
     gap: 15px;
+
+    &::-webkit-scrollbar {
+      background-color: rgba(255, 255, 255, 0.0);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #9b8989;
+      border-radius: 25px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(155, 137, 137, 0.62);
+    }
   }
 
   .student {
@@ -24,12 +37,52 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     width: fit-content;
+    display: flex;
+    flex-direction: column;
   }
 
 
   .student-info {
     padding: 1rem;
     border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 0;
+    }
+  }
+
+  .toolbox {
+    .remove {
+      margin: 0.35rem;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.225);
+
+      .remove {
+        &:hover {
+          cursor: pointer;
+          color: white;
+        }
+      }
+    }
+
+    display: flex;
+    flex-direction: column;
+
+
+    align-items: center;
+
+    hr {
+      width: 75%;
+    }
+
+    background-color: rgba(0, 0, 0, 0.325);
   }
 
   .student-info p {
