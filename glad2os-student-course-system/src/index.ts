@@ -4,10 +4,8 @@ import express, { Express } from 'express';
 
 const cors = require('cors')
 
-
-
 const app: Express = express();
-const port = process.env.PORT || 25600;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({

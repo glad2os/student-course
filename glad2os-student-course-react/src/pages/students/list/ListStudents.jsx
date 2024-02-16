@@ -24,6 +24,24 @@ const ListStudents = () => {
         return window.location.href = `/student/${id}`;
     }
 
+    async function removeRequest(_id) {
+        try {
+            let axiosResponse = await api.delete(`http://localhost:3000/students/${_id}`);
+
+            if (axiosResponse.status === 200) {
+                alert("Student deleted successfully!");
+
+                const updatedStudents = students.filter(student => student._id !== _id);
+                setStudents(updatedStudents);
+            } else {
+                alert("Failed to delete the student.");
+            }
+        } catch (error) {
+            console.error("Error deleting student: ", error);
+            alert("An error occurred while trying to delete the student.");
+        }
+    }
+
     return (
         <div className="container student-list">
             <h1>Students</h1>
@@ -44,7 +62,7 @@ const ListStudents = () => {
                         </div>
                         <div className="toolbox">
                             <hr/>
-                            <div className="remove">
+                            <div className="remove" onClick={() => removeRequest(student._id)}>
                                 Delete
                             </div>
                         </div>

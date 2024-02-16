@@ -1,10 +1,13 @@
 // eslint-disable-next-line no-unused-vars
-import React, {useState} from 'react';
-import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import "./CreateStudent.scss"
+import api from "../../../configs/api.js";
+import {useParams} from "react-router-dom";
 
-function CreateStudent() {
-    const [formData, setFormData] = useState({
+function UpdateStudent() {
+    const { id } = useParams();
+
+    const initialFormData = {
         studentNumber: '',
         password: '',
         firstName: '',
@@ -16,7 +19,29 @@ function CreateStudent() {
         program: '',
         favoriteTopic: '',
         strongestSkill: '',
-    });
+    };
+
+
+    const [formData, setFormData] = useState(initialFormData);
+
+    useEffect(() => {
+        const fetchStudentData = async () => {
+            if (id) { // Check if "id" is not null or undefined
+                try {
+                    const axiosResponse = await api.get(`http://localhost:3000/students/${id}`);
+                    // eslint-disable-next-line no-unused-vars
+                    const { _id, __v, ...studentFormData } = axiosResponse.data; // Destructure to exclude _id and __v
+                    setFormData(studentFormData);
+                } catch (error) {
+                    console.error("Error fetching student data: ", error);
+                }
+            }
+        };
+
+        fetchStudentData();
+    }, [id]);
+
+
 
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
@@ -25,18 +50,24 @@ function CreateStudent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/students', formData);
+            let response;
+            if (id) {
+                response = await api.put(`http://localhost:3000/students/${id}`, formData);
+            } else {
+                response = await api.post('http://localhost:3000/students', formData);
+            }
             console.log(response.data);
             alert("Done");
         } catch (error) {
-            console.error("Error creating student: ", error.response);
+            console.error("Error submitting form: ", error.response);
         }
     };
+
 
     return (
         <div>
             <div className="create-student-form">
-                <h1>Create Student</h1>
+                <h1>{id ? "Update" : "Create"} Student</h1>
                 <form onSubmit={handleSubmit}>
                     <input type="text" name="studentNumber" value={formData.studentNumber} onChange={handleChange}
                            placeholder="Student Number"/>
@@ -59,11 +90,11 @@ function CreateStudent() {
                            placeholder="Favorite Topic"/>
                     <input type="text" name="strongestSkill" value={formData.strongestSkill} onChange={handleChange}
                            placeholder="Strongest Skill"/>
-                    <button type="submit" className="submit-button">Create Student</button>
+                    <button type="submit" className="submit-button">{id ? "Update" : "Create"} Student</button>
                 </form>
             </div>
         </div>
     );
 }
 
-export default CreateStudent;
+export default UpdateStudent;
