@@ -55,7 +55,7 @@ function ListCourses() {
                 </li>
                 {courses.map(course => (
                     <li key={course._id} className="course">
-                        <div className="course-info" onClick={() => redirect(course._id)}>
+                        <div className="course-info">
                             <p>Course Code: <span>{course.courseCode}</span></p>
                             <p>Course Name: <span>{course.courseName}</span></p>
                             <p>Section: <span>{course.section}</span></p>
