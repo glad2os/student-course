@@ -1,0 +1,74 @@
+.container.course-list {
+  flex-direction: column;
+  color: lightgray;
+
+  @import '/src/pages/mixin/mixin';
+
+
+  ul {
+    @include ul
+  }
+
+  .course {
+    @include item
+  }
+
+
+  .course-info {
+    @include item-info
+  }
+
+  .toolbox {
+    @include toolbox
+  }
+
+  .course-info p {
+    margin: 0.5rem 0;
+  }
+
+  .course-info span {
+    font-weight: bold;
+  }
+
+  .course.add-new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px dashed #ccc;
+  }
+
+
+  .course.add-new .course-info {
+    width: 100%;
+    text-align: center;
+  }
+
+  .course.add-new .course-add-link {
+    display: block;
+    padding: 2rem;
+    font-size: 3rem;
+    color: #333;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .course.add-new .course-add-link:hover {
+    color: #fff;
+  }
+
+  .add-course-text {
+    margin: 0;
+  }
+
+  .details-window {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    width: calc(100vw - 60%);
+    background-color: white;
+    height: 400px;
+  }
+}

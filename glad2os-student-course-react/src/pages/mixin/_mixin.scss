@@ -1,0 +1,123 @@
+@mixin item {
+  color: lightgray;
+  flex: 1 1 200px;
+
+  margin-top: 15px;
+  list-style: none;
+  margin-bottom: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+
+@mixin ul {
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  justify-content: flex-start;
+  gap: 15px;
+
+  &::-webkit-scrollbar {
+    background-color: rgba(255, 255, 255, 0.0);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #9b8989;
+    border-radius: 25px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(155, 137, 137, 0.62);
+  }
+}
+
+@mixin toolbox {
+  .remove {
+    margin: 0.35rem;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.225);
+
+    .remove {
+      &:hover {
+        cursor: pointer;
+        color: white;
+      }
+    }
+  }
+
+  display: flex;
+  flex-direction: column;
+
+
+  align-items: center;
+
+  hr {
+    width: 75%;
+  }
+
+  background-color: rgba(0, 0, 0, 0.325);
+}
+
+
+@mixin form {
+  display: flex;
+  flex-direction: column;
+  width: 100%; // Adjust this as needed
+  max-width: 500px; // Prevents the form from becoming too wide on large screens
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    font-size: 1rem;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ced4da; // A light grey border
+    border-radius: 0.25rem;
+    background-color: lightgray;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus {
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+  }
+}
+
+@mixin submit-button {
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  color: #fff;
+  background-color: #0066ff; // Bootstrap primary button color
+  border: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover {
+    background-color: #0056b3; // A darker shade for hover state
+  }
+}
+
+@mixin item-info{
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 0;
+  }
+}

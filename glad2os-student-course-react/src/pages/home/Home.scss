@@ -1,0 +1,15 @@
+.container.home {
+  flex-direction: column;
+
+  h1 {
+
+    color: whitesmoke;
+
+    & + p {
+      margin-top: 15px;
+      text-align: justify;
+      color: #ffffff;
+      line-height: 1.5rem;
+    }
+  }
+}

@@ -6,11 +6,16 @@ build:
     context: ./glad2os-student-course-system
     docker: 
        dockerfile: Dockerfile
+  - image: glad2os/course-client
+    context: ./glad2os-student-course-react
+    docker:
+       dockerfile: Dockerfile
 deploy:
   kubectl:
     manifests:
     - k8s-manifests/node-backend/*.yaml
-    - k8s-manifests/mongodb/*.yaml 
+    - k8s-manifests/mongodb/*.yaml
+    - k8s-manifests/react-app/*yaml
 portForward:
   - resourceType: service
     resourceName: mongodb-service
@@ -22,3 +27,13 @@ portForward:
     namespace: default
     port: 3000
     localPort: 3000
+  - resourceType: service
+    resourceName: backend-service
+    namespace: default
+    port: 3000
+    localPort: 3000
+  - resourceType: service
+    resourceName: react-service
+    namespace: default
+    port: 5173
+    localPort: 5173

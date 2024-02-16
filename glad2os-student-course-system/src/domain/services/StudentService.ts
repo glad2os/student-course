@@ -9,7 +9,6 @@ class StudentService {
   }
 
   async addStudent(studentData: IStudent): Promise<IStudent> {
-    // You can include any business logic here before saving the student
     return this.studentRepository.addStudent(studentData);
   }
 
@@ -18,8 +17,19 @@ class StudentService {
   }
 
   async listCoursesByStudent(studentId: string): Promise<IStudent | null> {
-    // Additional logic can be added here if necessary
     return this.studentRepository.listCoursesByStudent(studentId);
+  }
+
+  async findStudentById(studentId: string): Promise<IStudent | null> {
+    return this.studentRepository.findStudentById(studentId);
+  }
+
+  async updateStudentById(studentId: string, studentData: Partial<IStudent>): Promise<IStudent | null> {
+    return this.studentRepository.updateStudentById(studentId, studentData);
+  }
+
+  async deleteStudentById(studentId: string): Promise<IStudent | null> {
+    return this.studentRepository.deleteStudentById(studentId);
   }
 }
 

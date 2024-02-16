@@ -1,0 +1,43 @@
+---
+- name: Setup Minikube, Docker, and Skaffold
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Install apt-transport-https, curl and other utilities
+      apt:
+        name:
+          - apt-transport-https
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Install Minikube dependencies
+      apt:
+        name:
+          - conntrack
+        state: present
+
+    - name: Download Minikube
+      get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        mode: '0755'
+
+    - name: Install kubectl
+      get_url:
+        url: https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+
+    - name: Install Skaffold
+      get_url:
+        url: https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+        dest: /usr/local/bin/skaffold
+        mode: '0755'

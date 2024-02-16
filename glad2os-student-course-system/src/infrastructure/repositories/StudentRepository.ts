@@ -20,6 +20,18 @@ class StudentRepository {
   async listCoursesByStudent(studentId: string): Promise<IStudent | null> {
     return this.studentModel.findById(studentId).populate('courses').exec();
   }
+
+  async findStudentById(studentId: string): Promise<IStudent | null> {
+    return this.studentModel.findById(studentId).exec();
+  }
+
+  async updateStudentById(studentId: string, studentData: Partial<IStudent>): Promise<IStudent | null> {
+    return this.studentModel.findByIdAndUpdate(studentId, studentData, { new: true }).exec();
+  }
+
+  async deleteStudentById(studentId: string): Promise<IStudent | null> {
+    return this.studentModel.findByIdAndDelete(studentId).exec();
+  }
 }
 
 export default StudentRepository;

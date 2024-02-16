@@ -7,6 +7,7 @@ function Header({ showLinks }){
         <header>
             {showLinks && (
                 <>
+                    <Link to="/">Home</Link>
                     <Link to="/create-course">Create Course</Link>
                     <Link to="/courses">List Courses</Link>
                     <Link to="/create-student">Create Student</Link>
