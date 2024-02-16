@@ -6,14 +6,10 @@ import "./ListCoures.scss"
 function ListCourses() {
     const [courses, setCourses] = useState([]);
 
-    const {BACKEND_HOST} = process.env;
-
-
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                let url = BACKEND_HOST ? `${BACKEND_HOST}/courses` : 'http://localhost:3000/courses';
-                const response = await api.get(url);
+                const response = await api.get('http://localhost:3000/courses');
                 setCourses(response.data);
             } catch (error) {
                 console.error("Error fetching courses: ", error);
