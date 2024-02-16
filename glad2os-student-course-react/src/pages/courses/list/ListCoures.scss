@@ -1,19 +1,20 @@
-
-.container.student-list {
+.container.course-list {
   flex-direction: column;
   color: lightgray;
+
   @import '/src/pages/mixin/mixin';
+
 
   ul {
     @include ul
   }
 
-  .student {
+  .course {
     @include item
   }
 
 
-  .student-info {
+  .course-info {
     @include item-info
   }
 
@@ -21,15 +22,15 @@
     @include toolbox
   }
 
-  .student-info p {
+  .course-info p {
     margin: 0.5rem 0;
   }
 
-  .student-info span {
+  .course-info span {
     font-weight: bold;
   }
 
-  .student.add-new {
+  .course.add-new {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,12 +38,13 @@
     border: 2px dashed #ccc;
   }
 
-  .student.add-new .student-info {
+
+  .course.add-new .course-info {
     width: 100%;
     text-align: center;
   }
 
-  .student.add-new .student-add-link {
+  .course.add-new .course-add-link {
     display: block;
     padding: 2rem;
     font-size: 3rem;
@@ -50,11 +52,23 @@
     transition: color 0.2s, background-color 0.2s;
   }
 
-  .student.add-new .student-add-link:hover {
+  .course.add-new .course-add-link:hover {
     color: #fff;
   }
 
-  .add-student-text {
+  .add-course-text {
     margin: 0;
+  }
+
+  .details-window {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    width: calc(100vw - 60%);
+    background-color: white;
+    height: 400px;
   }
 }

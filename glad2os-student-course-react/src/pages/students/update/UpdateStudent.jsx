@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useEffect, useState} from 'react';
-import "./CreateStudent.scss"
+import "./UpdateStudent.scss"
 import api from "../../../configs/api.js";
 import {useParams} from "react-router-dom";
 
@@ -62,7 +62,6 @@ function UpdateStudent() {
             console.error("Error submitting form: ", error.response);
         }
     };
-
 
     return (
         <div>
