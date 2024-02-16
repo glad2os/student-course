@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import api from '../../../configs/api.js';
 import {Link} from 'react-router-dom';
 import "./ListCoures.scss"
@@ -6,11 +6,15 @@ import "./ListCoures.scss"
 function ListCourses() {
     const [courses, setCourses] = useState([]);
 
+    const {BACKEND_HOST} = process.env;
+
+
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await api.get('http://localhost:3000/courses');
-                setCourses(response.data); // Assuming the response data is an array of courses
+                let url = BACKEND_HOST ? `${BACKEND_HOST}/courses` : 'http://localhost:3000/courses';
+                const response = await api.get(url);
+                setCourses(response.data);
             } catch (error) {
                 console.error("Error fetching courses: ", error);
             }

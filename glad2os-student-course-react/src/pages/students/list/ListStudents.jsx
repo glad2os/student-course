@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import api from '../../../configs/api.js';
 import "./Studentlist.scss";
 import {Link} from "react-router-dom";

@@ -1,0 +1,6 @@
+---
+ansible_user: system76
+ansible_ssh_private_key_file: /path/to/id_rsa
+hostname:
+  name: system76
+  project_path: /home/system76/student-course/
