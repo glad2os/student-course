@@ -1,49 +1,75 @@
 import {useEffect, useState} from 'react';
-import api from '../../../configs/api.js';
 import {Link} from 'react-router-dom';
 import "./ListCoures.scss"
+import axios from "axios";
 
 function ListCourses() {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
         const fetchCourses = async () => {
+            const query = `
+                query {
+                    listAllCourses {
+                        id
+                        courseCode
+                        courseName
+                        section
+                        semester
+                    }
+                }
+            `;
+
             try {
-                const response = await api.get('http://localhost:3000/courses');
-                setCourses(response.data);
+                const response = await axios({
+                    url: 'http://localhost:4000/graphql', method: 'POST', data: JSON.stringify({query}), headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response.data.data.listAllCourses) {
+                    setCourses(response.data.data.listAllCourses);
+                }
             } catch (error) {
                 console.error("Error fetching courses: ", error);
             }
         };
 
-        fetchCourses().then(() => {
-        });
+        fetchCourses();
     }, []);
 
-    async function removeRequest(_id) {
+    async function removeCourse(courseId) {
+        const mutation = `
+            mutation {
+                dropCourse(courseId: "${courseId}") {
+                    id
+                }
+            }
+        `;
+
         try {
-            let axiosResponse = await api.delete(`http://localhost:3000/courses/${_id}`);
+            const response = await axios({
+                url: 'http://localhost:4000/graphql',
+                method: 'POST',
+                data: JSON.stringify({query: mutation}),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-            if (axiosResponse.status === 200) {
-                alert("Student deleted successfully!");
-
-                const updatedStudents = courses.filter(student => student._id !== _id);
-                setCourses(updatedStudents);
+            if (response.data.data.dropCourse) {
+                alert("Course deleted successfully!");
+                setCourses(courses.filter(course => course.id !== courseId));
             } else {
-                alert("Failed to delete the student.");
+                alert("Failed to delete the course.");
             }
         } catch (error) {
-            console.error("Error deleting student: ", error);
-            alert("An error occurred while trying to delete the student.");
+            console.error("Error deleting course: ", error);
+            alert("An error occurred while trying to delete the course.");
         }
     }
 
-    const redirect = (id) => {
-        return window.location.href = `/courses/${id}`;
-    }
-
-    return (
-        <div className="container course-list">
+    return (<div className="container course-list">
             <h1>Courses</h1>
             <ul>
                 <li className="course add-new">
@@ -53,25 +79,24 @@ function ListCourses() {
                         </div>
                     </Link>
                 </li>
-                {courses.map(course => (
-                    <li key={course._id} className="course">
-                        <div className="course-info">
-                            <p>Course Code: <span>{course.courseCode}</span></p>
-                            <p>Course Name: <span>{course.courseName}</span></p>
-                            <p>Section: <span>{course.section}</span></p>
-                            <p>Semester: <span>{course.semester}</span></p>
-                        </div>
-                        <div className="toolbox">
-                            <hr/>
-                            <div className="remove" onClick={() => removeRequest(course._id)}>
-                                Delete
+                {courses.map(course => {
+                    return (<li key={course.id} className="course">
+                            <div className="course-info">
+                                <p>courseCode: <span>{course.courseCode}</span></p>
+                                <p>courseName: <span>{course.courseName}</span></p>
+                                <p>section: <span>{course.section}</span></p>
+                                <p>semester: <span>{course.semester}</span></p>
                             </div>
-                        </div>
-                    </li>
-                ))}
+                            <div className="toolbox">
+                                <hr/>
+                                <div className="remove" onClick={() => removeCourse(course.id)}>
+                                    Delete
+                                </div>
+                            </div>
+                        </li>)
+                })}
             </ul>
-        </div>
-    );
+        </div>);
 }
 
 export default ListCourses;

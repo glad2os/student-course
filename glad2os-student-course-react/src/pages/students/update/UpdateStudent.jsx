@@ -1,11 +1,10 @@
-// eslint-disable-next-line no-unused-vars
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import "./UpdateStudent.scss"
 import api from "../../../configs/api.js";
 import {useParams} from "react-router-dom";
 
 function UpdateStudent() {
-    const { id } = useParams();
+    const {id} = useParams();
 
     const initialFormData = {
         studentNumber: '',
@@ -26,21 +25,43 @@ function UpdateStudent() {
 
     useEffect(() => {
         const fetchStudentData = async () => {
-            if (id) { // Check if "id" is not null or undefined
+            if (id) {
+                const query = `
+            query GetStudent($id: ID!) {
+              findStudentById(studentId: $id) {
+                studentNumber
+                password
+                firstName
+                lastName
+                address
+                city
+                phoneNumber
+                email
+                program
+                favoriteTopic
+                strongestSkill
+              }
+            }
+        `;
+
                 try {
-                    const axiosResponse = await api.get(`http://localhost:3000/students/${id}`);
-                    // eslint-disable-next-line no-unused-vars
-                    const { _id, __v, ...studentFormData } = axiosResponse.data; // Destructure to exclude _id and __v
-                    setFormData(studentFormData);
+                    const response = await api.post('/graphql', {
+                        query,
+                        variables: {id},
+                    });
+
+                    if (response.data.data.findStudentById) {
+                        setFormData(response.data.data.findStudentById);
+                    }
                 } catch (error) {
                     console.error("Error fetching student data: ", error);
                 }
             }
         };
 
+
         fetchStudentData();
     }, [id]);
-
 
 
     const handleChange = (e) => {
@@ -49,19 +70,35 @@ function UpdateStudent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const mutation = id ? `
+        mutation UpdateStudent($id: ID!, $studentData: StudentInput!) {
+          updateStudentById(studentId: $id, studentData: $studentData) {
+            id
+          }
+        }
+    ` : `
+        mutation AddStudent($studentData: StudentInput!) {
+          addStudent(studentData: $studentData) {
+            id
+          }
+        }
+    `;
+
         try {
-            let response;
-            if (id) {
-                response = await api.put(`http://localhost:3000/students/${id}`, formData);
-            } else {
-                response = await api.post('http://localhost:3000/students', formData);
-            }
+            const variables = id ? {id, studentData: formData} : {studentData: formData};
+            const response = await api.post('/graphql', {
+                query: mutation,
+                variables,
+            });
+
             console.log(response.data);
             alert("Done");
         } catch (error) {
             console.error("Error submitting form: ", error.response);
         }
     };
+
 
     return (
         <div>

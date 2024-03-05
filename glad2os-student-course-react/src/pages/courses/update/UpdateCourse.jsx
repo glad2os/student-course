@@ -1,55 +1,94 @@
-import React, { useEffect, useState } from 'react';
-import "./UpdateCourse.scss"; // Assuming you have or will create a corresponding SCSS file for styling
-import api from "../../../configs/api.js";
-import { useParams } from "react-router-dom";
+import {useEffect, useState} from 'react';
+import "./UpdateCourse.scss";
+import {useParams} from "react-router-dom";
+import axios from "axios";
 
 function UpdateCourse() {
-    const { id } = useParams();
+    const {id} = useParams();
 
     const initialFormData = {
         courseCode: '',
         courseName: '',
         section: '',
         semester: '',
-        students: [] // Assuming the course might have an array of student IDs
     };
 
     const [formData, setFormData] = useState(initialFormData);
 
     useEffect(() => {
-        const fetchCourseData = async () => {
-            if (id) {
+        if (id) {
+            const fetchCourseData = async () => {
+                const query = `
+                    query GetCourse($id: ID!) {
+                        course(id: $id) {
+                            id
+                            courseCode
+                            courseName
+                            section
+                            semester
+                        }
+                    }
+                `;
+
                 try {
-                    const response = await api.get(`http://localhost:3000/courses/${id}`);
-                    const { _id, __v, ...courseFormData } = response.data; // Destructure to exclude _id and __v
-                    setFormData(courseFormData);
+                    const response = await axios.post('http://localhost:4000/graphql', {
+                        query,
+                        variables: {id},
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    if (response.data.data.course) {
+                        setFormData({
+                            courseCode: response.data.data.course.courseCode,
+                            courseName: response.data.data.course.courseName,
+                            section: response.data.data.course.section,
+                            semester: response.data.data.course.semester,
+                        });
+                    }
                 } catch (error) {
                     console.error("Error fetching course data: ", error);
                 }
-            }
-        };
+            };
 
-        fetchCourseData();
+            fetchCourseData();
+        }
     }, [id]);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({...formData, [e.target.name]: e.target.value});
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            let response;
-            if (id) {
-                response = await api.put(`http://localhost:3000/courses/${id}`, formData);
-            } else {
-                response = await api.post('http://localhost:3000/courses', formData);
+        const mutation = `
+            mutation ${id ? 'UpdateCourse' : 'CreateCourse'}($courseData: CourseInput!) {
+                ${id ? 'updateCourse' : 'addCourse'}(courseData: $courseData) {
+                    id
+                }
             }
-            console.log(response.data);
-            alert("Course updated successfully!");
+        `;
+
+        try {
+            await axios.post('http://localhost:4000/graphql', {
+                query: mutation,
+                variables: {
+                    courseData: {
+                        ...formData,
+                    },
+                },
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            alert(`Course ${id ? 'updated' : 'created'} successfully!`);
         } catch (error) {
-            console.error("Error submitting course: ", error.response);
-            alert("Failed to update course.");
+            console.error("Error submitting course: ", error);
+            alert(`Failed to ${id ? 'update' : 'create'} course.`);
         }
     };
 
@@ -66,7 +105,6 @@ function UpdateCourse() {
                            placeholder="Section"/>
                     <input type="text" name="semester" value={formData.semester} onChange={handleChange}
                            placeholder="Semester"/>
-                    {/* Handling of students array might require a more complex UI component */}
                     <button type="submit" className="submit-button">{id ? "Update" : "Create"} Course</button>
                 </form>
             </div>

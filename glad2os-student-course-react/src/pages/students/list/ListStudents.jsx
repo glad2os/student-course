@@ -1,20 +1,35 @@
 import {useEffect, useState} from 'react';
-import api from '../../../configs/api.js';
 import "./Studentlist.scss";
 import {Link} from "react-router-dom";
+import graphqlAPI from "../../../configs/api.js";
 
 const ListStudents = () => {
     const [students, setStudents] = useState([]);
 
     useEffect(() => {
         const fetchStudents = async () => {
+            const query = `
+                query {
+                    listAllStudents {
+                        id
+                        studentNumber
+                        firstName
+                        lastName
+                        program
+                    }
+                }
+            `;
+
             try {
-                const response = await api.get('http://localhost:3000/students');
-                setStudents(response.data);
+                const response = await graphqlAPI.post('', JSON.stringify({query}));
+                if (response.data.data.listAllStudents) {
+                    setStudents(response.data.data.listAllStudents);
+                }
             } catch (error) {
-                console.error("Error fetching data: ", error);
+                console.error("Error fetching students: ", error);
             }
         };
+
 
         fetchStudents().then(() => {
         });
@@ -24,14 +39,20 @@ const ListStudents = () => {
         return window.location.href = `/student/${id}`;
     }
 
-    async function removeRequest(_id) {
+    async function removeRequest(id) {
+        const mutation = `
+            mutation {
+                deleteStudentById(studentId: "${id}") {
+                    id
+                }
+            }
+        `;
+
         try {
-            let axiosResponse = await api.delete(`http://localhost:3000/students/${_id}`);
-
-            if (axiosResponse.status === 200) {
+            const response = await graphqlAPI.post('', JSON.stringify({query: mutation}));
+            if (response.data.data.deleteStudentById) {
                 alert("Student deleted successfully!");
-
-                const updatedStudents = students.filter(student => student._id !== _id);
+                const updatedStudents = students.filter(student => student.id !== id);
                 setStudents(updatedStudents);
             } else {
                 alert("Failed to delete the student.");
@@ -41,6 +62,7 @@ const ListStudents = () => {
             alert("An error occurred while trying to delete the student.");
         }
     }
+
 
     return (
         <div className="container student-list">
@@ -54,15 +76,15 @@ const ListStudents = () => {
                     </Link>
                 </li>
                 {students.map(student => (
-                    <li key={student._id} className="student">
-                        <div className="student-info" onClick={() => redirect(student._id)}>
+                    <li key={student.id} className="student">
+                        <div className="student-info" onClick={() => redirect(student.id)}>
                             <p>Student Number: <span>{student.studentNumber}</span></p>
                             <p>Name: <span>{student.firstName} {student.lastName}</span></p>
                             <p>Program: <span>{student.program}</span></p>
                         </div>
                         <div className="toolbox">
                             <hr/>
-                            <div className="remove" onClick={() => removeRequest(student._id)}>
+                            <div className="remove" onClick={() => removeRequest(student.id)}>
                                 Delete
                             </div>
                         </div>
@@ -71,7 +93,6 @@ const ListStudents = () => {
             </ul>
         </div>
     );
-
 };
 
 export default ListStudents;

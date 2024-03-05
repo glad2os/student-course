@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const api = axios.create({
-    baseURL: 'http://localhost:3000',
+const graphqlAPI = axios.create({
+    baseURL: 'http://localhost:4000/graphql', // Your GraphQL endpoint
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
-export default api;
+export default graphqlAPI;
